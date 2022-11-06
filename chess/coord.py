@@ -26,6 +26,16 @@ class Coord:
             return False
         return True
 
+    def __gt__(self, other):
+        if self.x > other.x and self.y > other.y:
+            return True
+        return False
+
+    def __lt__(self, other):
+        if self.x < other.x and self.y < other.y:
+            return True
+        return False
+
     def distance(self, square):
         if self.x == square.x:
             pass
@@ -83,7 +93,7 @@ class Coord:
             return True
         return False
 
-    def iterate_l(self, move):
+    def knight(self, move):
         iter = Coord(self.x, self.y)
         iter.iterate_up()
         iter.iterate_up()
@@ -133,7 +143,7 @@ class Coord:
             if iter == move:
                 return True
 
-    def iterate_surround(self, move):
+    def king(self, move):
         iter = Coord(self.x, self.y)
         if iter.iterate_up():
             if iter == move:
