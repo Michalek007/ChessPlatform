@@ -106,7 +106,167 @@ def test_check_obstacle_3():
         Chessman(5, 8, Piece.king, Color.black),
         Chessman(1, 3, Piece.queen, Color.white),
         Chessman(3, 5, Piece.bishop, Color.white)]
-    print(test[2])
     game = Game(test, Color.white)
     assert game.is_legal(Coord(2, 4), test[2])
 
+
+def test_check_game_1():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert not game.is_legal(Coord(4, 6), pieces[1])
+
+
+def test_check_game_1_2():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white)]
+    game = Game(pieces, Color.black)
+    assert game.is_legal(Coord(4, 5), pieces[1])
+
+
+def test_check_game_1_3():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white)]
+    game = Game(pieces, Color.black)
+    assert game.is_legal(Coord(4, 6), pieces[1])
+
+
+def test_check_game_1_5():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert not game.is_legal(Coord(4, 5), pieces[1])
+
+
+def test_check_game_1_7():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert not game.is_legal(Coord(4, 6), pieces[1])
+
+
+def test_check_game_2():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert game.is_legal(Coord(5, 6), pieces[2])
+
+
+def test_check_game_2_1():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(5, 6, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white)]
+    game = Game(pieces, Color.white)
+    assert not game.is_legal(Coord(5, 8), pieces[3])
+
+
+def test_check_game_2_2():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 6, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.white)
+    assert not game.is_legal(Coord(5, 8), pieces[4])
+
+
+def test_check_game_2_3():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert game.is_legal(Coord(5, 5), pieces[2])
+
+
+def test_check_game_2_5():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert game.is_legal(Coord(5, 6), pieces[2])
+
+
+def test_check_game_2_7():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(5, 7, Piece.pawn, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert game.is_legal(Coord(5, 5), pieces[2])
+
+
+def test_check_game_3():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(8, 7, Piece.rook, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert not game.is_legal(Coord(5, 7), pieces[0])
+
+
+def test_check_game_3_1():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(8, 7, Piece.rook, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert game.is_legal(Coord(6, 7), pieces[0])
+
+
+def test_check_game_3_2():
+    pieces = [
+        Chessman(5, 8, Piece.king, Color.black),
+        Chessman(4, 7, Piece.pawn, Color.black),
+        Chessman(8, 7, Piece.rook, Color.black),
+        Chessman(5, 1, Piece.king, Color.white),
+        Chessman(5, 2, Piece.queen, Color.white),
+        Chessman(2, 5, Piece.bishop, Color.white)]
+    game = Game(pieces, Color.black)
+    assert game.is_legal(Coord(5, 7), pieces[2])

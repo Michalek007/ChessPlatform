@@ -56,9 +56,34 @@ class Game:
         ]
         return list_of_pieces
 
+    def make_move(self, move: Coord, piece: Chessman):
+        if not self.is_legal(move=move, piece=piece):
+            return False
+        if self.turn == Color.white:
+            id = self.whites[self.whites.index(piece)]
+            self.last_move = {'piece': self.whites[id], "taken": None}
+            self.whites[id].coord = move
+            for piece in self.blacks:
+                if piece.coord == move:
+                    self.last_move['taken'] = piece
+                    self.blacks.remove(piece)
+            self.turn = Color.black
+        else:
+            id = self.blacks[self.blacks.index(piece)]
+            self.game_record.append({'piece': self.blacks[id], 'coord': move, "taken": None})
+            self.last_move = self.game_record[-1]
+            self.blacks[id].coord = move
+            for piece in self.whites:
+                if piece.coord == move:
+                    self.game_record[-1]['taken'] = piece
+                    self.last_move['taken'] = piece
+                    self.whites.remove(piece)
+            self.turn = Color.white
+
     def is_legal(self, move: Coord, piece: Chessman):
         # print("Move -> is_legal: ", piece.is_legal(move))
         if not piece.is_legal(move):
+            breakpoint()
             return False
         if self.turn == Color.white:
             if piece not in self.whites:
@@ -73,16 +98,18 @@ class Game:
             id = self.whites.index(piece)
             self.move(move, id)
             for item in self.blacks:
-                if item.is_legal(self.whites[0].coord):
+                if not item.is_legal(self.whites[0].coord):
+                    continue
+                if self.check_obstacle(item, self.whites[0].coord):
                     self.undo_last_move()
                     return False
         else:
             if piece not in self.blacks:
-                print('Checking if piece exist...')
+                print('Piece is not in blacks')
                 return False
             for item in self.blacks:
                 if item.coord == move:
-                    print('Checking if black piece is already on that square...')
+                    print('Black piece is already on that square...')
                     return False
             # new method which check if there are pieces between two figures
             # if true return false
@@ -91,14 +118,16 @@ class Game:
             id = self.blacks.index(piece)
             self.move(move, id)
             for item in self.whites:
-                if item.is_legal(self.blacks[0].coord):
+                if not item.is_legal(self.blacks[0].coord):
+                    continue
+                if self.check_obstacle(item, self.blacks[0].coord):
                     self.undo_last_move()
                     return False
         return True
 
     def move(self, move: Coord, id: int):
-        self.last_move = {'piece': self.whites[id], "taken": None}
         if self.turn == Color.white:
+            self.last_move = {'piece': self.whites[id], "taken": None}
             self.whites[id].coord = move
             for piece in self.blacks:
                 if piece.coord == move:
@@ -106,6 +135,7 @@ class Game:
                     self.blacks.remove(piece)
             self.turn = Color.black
         else:
+            self.last_move = {'piece': self.blacks[id], "taken": None}
             self.blacks[id].coord = move
             for piece in self.whites:
                 if piece.coord == move:
@@ -135,7 +165,10 @@ class Game:
                         self.blacks.append(taken)
                 piece.coord = l_piece.coord
             self.turn = Color.white
-        self.last_move = {'piece': None, "taken": None}
+        if self.game_record:
+            self.last_move = self.game_record[-1]
+        else:
+            self.last_move = {'piece': None, "taken": None}
 
     def check_obstacle(self, piece, move):
         if piece.type == Piece.knight or piece.type == Piece.king:
@@ -145,11 +178,11 @@ class Game:
             if move.x != piece.coord.x:
                 if piece.color == Color.white:
                     for item in self.blacks:
-                        if move.x == item.coord:
+                        if move.x == item.coord.x:
                             return True
                 if piece.color == Color.black:
                     for item in self.whites:
-                        if move.x == item.coord:
+                        if move.x == item.coord.x:
                             return True
                 if piece.color == Color.white and piece.coord.x != 5:
                     return False
@@ -164,31 +197,28 @@ class Game:
                     if move.x == self.last_move['piece'].coord.x:
                         return True
                 return False
-            if move.y == piece.y + 2:
-                if piece.y != 2:
+            if move.y == piece.coord.y + 2:
+                if piece.coord.y != 2:
                     return False
                 for item in self.whites:
-                    if move.y + 1 == item.coord:
+                    if move.y + 1 == item.coord.y:
                         return False
                 for item in self.blacks:
-                    if move.y + 1 == item.coord:
+                    if move.y + 1 == item.coord.y:
                         return False
                 return True
-            if move.y == piece.y - 2:
-                if piece.y != 7:
+            if move.y == piece.coord.y - 2:
+                if piece.coord.y != 7:
                     return False
                 for item in self.whites:
-                    if move.y - 1 == item.coord:
+                    if move.y - 1 == item.coord.y:
                         return False
                 for item in self.blacks:
-                    if move.y - 1 == item.coord:
+                    if move.y - 1 == item.coord.y:
                         return False
                 return True
             return True
         if piece.coord > move:
-            print(piece.coord)
-            print(move)
-            print('test1')
             while True:
                 iter.iterate_left_down()
                 if iter == move:
@@ -200,9 +230,6 @@ class Game:
                     if iter == item.coord:
                         return False
         if piece.coord < move:
-            print(piece.coord)
-            print(move)
-            print('test2')
             iter.x, iter.y = (piece.coord.x, piece.coord.y)
             while True:
                 iter.iterate_right_up()
@@ -285,98 +312,4 @@ class Game:
                 for item in self.whites:
                     if iter == item.coord:
                         return False
-        return True
-
-    def check_obstacle2(self, piece, move):
-        if piece.type == Piece.knight or piece.type == Piece.king:
-            return True
-        iter = Coord(piece.coord.x, piece.coord.y)
-        if piece.type == Piece.pawn:
-            return True
-        while True:
-            iter.iterate_right_up()
-            if iter == move:
-                break
-            for item in self.blacks:
-                if iter == item.coord:
-                    return False
-            for item in self.whites:
-                if iter == item.coord:
-                    return False
-        iter.x, iter.y = (piece.coord.x, piece.coord.y)
-        while True:
-            iter.iterate_left_down()
-            if iter == move:
-                break
-            for item in self.blacks:
-                if iter == item.coord:
-                    return False
-            for item in self.whites:
-                if iter == item.coord:
-                    return False
-        iter.x, iter.y = (piece.coord.x, piece.coord.y)
-        while True:
-            iter.iterate_left_up()
-            if iter == move:
-                break
-            for item in self.blacks:
-                if iter == item.coord:
-                    return False
-            for item in self.whites:
-                if iter == item.coord:
-                    return False
-        while True:
-            iter.iterate_right_down()
-            if iter == move:
-                break
-            for item in self.blacks:
-                if iter == item.coord:
-                    return False
-            for item in self.whites:
-                if iter == item.coord:
-                    return False
-        iter.x, iter.y = (piece.coord.x, piece.coord.y)
-        while True:
-            iter.iterate_down()
-            if iter == move:
-                break
-            for item in self.blacks:
-                if iter == item.coord:
-                    return False
-            for item in self.whites:
-                if iter == item.coord:
-                    return False
-        iter.x, iter.y = (piece.coord.x, piece.coord.y)
-        while True:
-            iter.iterate_up()
-            if iter == move:
-                break
-            for item in self.blacks:
-                if iter == item.coord:
-                    return False
-            for item in self.whites:
-                if iter == item.coord:
-                    return False
-        iter.x, iter.y = (piece.coord.x, piece.coord.y)
-        while True:
-            iter.iterate_left()
-            if iter == move:
-                break
-            for item in self.blacks:
-                if iter == item.coord:
-                    return False
-            for item in self.whites:
-                if iter == item.coord:
-                    return False
-        iter.x, iter.y = (piece.coord.x, piece.coord.y)
-        while True:
-            iter.iterate_right()
-            if iter == move:
-                break
-            for item in self.blacks:
-                if iter == item.coord:
-                    return False
-            for item in self.whites:
-                if iter == item.coord:
-                    return False
         return True
