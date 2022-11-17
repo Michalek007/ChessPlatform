@@ -30,6 +30,12 @@ class Chessman:
     def __str__(self):
         return str(self.color) + ' ' + str(self.type) + ' ' + str(self.coord)
 
+    def is_white(self):
+        if self.color == Color.white:
+            return True
+        else:
+            return False
+
     def is_legal(self, move: Coord):
         if self.type == Piece.queen:
             return self.coord.queen(move)
