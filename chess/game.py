@@ -67,20 +67,26 @@ class Game:
         ]
         return list_of_pieces
 
-    def get_piece(self, square: Coord):
+    def get_piece_id(self, square: Coord):
         for piece in self.whites:
             if piece.coord == square:
-                return piece
+                return self.whites.index(piece)
         for piece in self.blacks:
             if piece.coord == square:
-                return piece
+                return self.blacks.index(piece)
         return None
 
-    def make_move(self, move: Coord, piece: Chessman):
+    def make_move(self, move: Coord, id: int):
+        try:
+            piece = self.whites[id]
+        except IndexError:
+            try:
+                piece = self.blacks[id]
+            except IndexError:
+                return False
         if not self.is_legal(move=move, piece=piece):
             return False
         if self.turn == Color.white:
-            id = self.whites[self.whites.index(piece)]
             self.game_record.append({'piece': self.whites[id], 'move': move, 'taken': None})
             self.whites[id].coord = move
             for piece in self.blacks:
@@ -90,7 +96,6 @@ class Game:
             self.last_move = self.game_record[-1]
             self.turn = Color.black
         else:
-            id = self.blacks[self.blacks.index(piece)]
             self.game_record.append({'piece': self.blacks[id], 'move': move, 'taken': None})
             self.blacks[id].coord = move
             for piece in self.whites:
@@ -197,10 +202,10 @@ class Game:
         #     return True
         for item in self.blacks:
             if iter == item.coord:
-                return False
+                return True
         for item in self.whites:
             if iter == item.coord:
-                return False
+                return True
         return False
 
     def check_obstacle(self, piece, move):

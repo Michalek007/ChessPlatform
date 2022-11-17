@@ -279,6 +279,8 @@ class Coord:
     #     return False
 
     def iterate_right_up(self):
+
+
         if self.x + 1 > Coord.MAX:
             return False
         if self.y + 1 > Coord.MAX:

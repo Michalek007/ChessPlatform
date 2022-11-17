@@ -19,12 +19,12 @@ while True:
     print(game)
     x = int(input())
     y = int(input())
-    piece = game.get_piece(Coord(x, y))
-    print(piece)
-    if not piece:
+    piece_id = game.get_piece_id(Coord(x, y))
+    print(piece_id)
+    if piece_id is None:
         continue
     a = int(input())
     b = int(input())
-    if not game.make_move(piece=piece, move=Coord(a, b)):
+    if not game.make_move(move=Coord(a, b), id=piece_id):
         continue
     print(game)
