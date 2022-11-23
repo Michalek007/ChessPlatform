@@ -1,5 +1,6 @@
-from app import app, bcrypt, db
-from database.db_schema import *
+from app import app, bcrypt
+from database import db
+from database.db_schema import Performance, User
 import psutil
 from datetime import datetime
 

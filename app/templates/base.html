@@ -2,22 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> ChessPlatform </title>
+    <title> Electronics Hub </title>
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
-  {% block head %}{% endblock %}
+    {% block head %}{% endblock %}
 </head>
 <body>
-    <form action = "http://localhost:5000/login" method = "POST">
+    <form action = "{{url_for('login')}}"  method = "POST">
         <p>Enter username:</p>
-        <p><input type = "text" name = "username" /></p>
-        <p>Enter PIN:</p>
-        <p><input type = "text" name = "pin" /></p>
-        <p><input type = "submit" value = "submit" /></p>
+        <label for='login'></label><input type='text' name='login' id='login' placeholder='login'/>
+        <p>Enter password:</p>
+        <label for='password'></label><input type='password' name='password' id='password' placeholder='password'/>
+        <p><input type='submit' name='submit'/></p>
     </form>
-     <form action = "http://localhost:5000/register" method = "GET">
+     <form action = "{{url_for('register')}}"  method = "GET">
         <p><input type = "submit" value = "Click to register" /></p>
     </form>
- {% block body %}{% endblock %}
-
+{% block body %}{% endblock %}
 </body>
 </html>

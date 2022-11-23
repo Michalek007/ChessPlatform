@@ -1,3 +1,8 @@
 from app import app
-import database.cli_commands
-import database.db_schema
+from flask_sqlalchemy import SQLAlchemy
+
+
+db = SQLAlchemy()
+db.init_app(app)
+
+from database.db_schema import Performance, User, user_schema, users_schema, performances_schema, performance_schema

@@ -1,4 +1,5 @@
-from app import ma, db
+from app import ma
+from database import db
 from sqlalchemy import Column, Integer, String, Float
 
 

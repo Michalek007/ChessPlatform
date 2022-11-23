@@ -1,15 +1,14 @@
 from flask import Flask, render_template, url_for, request, redirect, jsonify
 from datetime import datetime
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
-from app import app, bcrypt, db
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, set_access_cookies
+from app import app, bcrypt
 from database.db_schema import *
 import psutil
 
 
-@app.route('/users/', methods=['GET'])
-def users():
-    users_list = User.query.all()
-    return jsonify(users=users_schema.dump(users_list))
+@app.route("/", methods=['POST', 'GET'])
+def base():
+    return render_template('base.html')
 
 
 @app.route('/performance/', methods=['GET'])
@@ -20,35 +19,40 @@ def performance():
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        test = User.query.filter_by(username=username).first()
-        if test:
-            return jsonify(message='That username is taken!'), 409
-        else:
-            pin = request.form['pin']
-            pw_hash = bcrypt.generate_password_hash(pin)
-            user = User(username=username, pw_hash=pw_hash)
-            db.session.add(user)
-            db.session.commit()
-            return jsonify(message='User created successfully.'), 201
-    elif request.method == 'GET':
+    if request.method == 'GET':
         return render_template('register.html')
 
-
-@app.route('/login/', methods=['POST'])
-def login():
-    if request.is_json:
-        username = request.json['username']
-        pin = request.json['pin']
+    username = request.form['login']
+    test = User.query.filter_by(username=username).first()
+    if test:
+        return jsonify(message='That username is taken!'), 409
     else:
-        username = request.form['username']
-        pin = request.form['pin']
+        pin = request.form['password']
+        pw_hash = bcrypt.generate_password_hash(pin)
+        user = User(username=username, pw_hash=pw_hash)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(message='User created successfully.'), 201
+
+
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('base.html')
+
+    if request.is_json:
+        username = request.json['login']
+        password = request.json['password']
+    else:
+        username = request.form['login']
+        password = request.form['password']
     test = User.query.filter_by(username=username).first()
     if test:
         test_user = User.query.filter_by(username=username).first()
-        if bcrypt.check_password_hash(test_user.pw_hash, pin):
+        if bcrypt.check_password_hash(test_user.pw_hash, password):
             access_token = create_access_token(identity=username)
+            resp = jsonify({'login': True})
+            set_access_cookies(resp, access_token)
             return jsonify(message='Login succeeded', access_token=access_token), 201
         else:
             return jsonify(message='Wrong password'), 401
@@ -56,9 +60,10 @@ def login():
         return jsonify(message='There is no account with that username'), 401
 
 
-@app.route("/", methods=['POST', 'GET'])
-def base():
-    return render_template('base.html')
+@app.route('/users/', methods=['GET'])
+def users():
+    users_list = User.query.all()
+    return jsonify(users=users_schema.dump(users_list))
 
 
 @app.route("/time/", methods=['GET'])
