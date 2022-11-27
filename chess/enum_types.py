@@ -21,6 +21,7 @@ class Direction(enum.Enum):
     right_down = 5
     left_up = 6
     left_down = 7
+    undefined = 8
 
 
 class Color(enum.Enum):

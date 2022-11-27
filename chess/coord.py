@@ -1,8 +1,13 @@
+from enum_types import Direction
+
+
 class Coord:
     MAX = 8
     MIN = 1
 
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int = 1, y: int = 1):
+        if x > 8 or x < 1 or y > 8 or y < 1:
+            raise ValueError
         self.x = x
         self.y = y
 
@@ -25,6 +30,109 @@ class Coord:
         if self.y > self.MAX or self.y < self.MIN:
             return False
         return True
+
+
+    def is_equal(self, other):
+        if self.x == other.x and self.y == other.y:
+            return True
+        else:
+            return False
+
+    def x_axis_distance(self, other):
+        return abs(self.x - other.x)
+
+    def y_axis_distance(self, other):
+        return abs(self.y - other.y)
+
+    def is_diagonal(self, other):
+        if self.x_axis_distance(other) == self.y_axis_distance(other):
+            return True
+        return False
+
+    def get_direction(self, other):
+        if self.is_equal(other):
+            return Direction.undefined
+        if self.x == other.x():
+            if self.y > other.y:
+                return Direction.down
+            else:
+                return Direction.up
+        if self.y == other.y:
+            if self.x > other.x:
+                return Direction.left
+            else:
+                return Direction.right
+        if self.is_diagonal(other):
+            return Direction.undefined
+        if self.x > other.x and self.y > other.y:
+            return Direction.left_down
+        if self.x < other.x and self.y < other.get_y():
+            return Direction.right_up
+        if self.x > other.x and self.y < other.y:
+            return Direction.left_up
+        if self.x < other.x and self.y > other.y:
+            return Direction.right_down
+        return Direction.undefined
+
+    def up(self):
+        return Coord(self.x, self.y + 1)
+
+    def down(self):
+        return Coord(self.x, self.y - 1)
+
+    def left(self):
+        return Coord(self.x - 1, self.y)
+
+    def right(self):
+        return Coord(self.x + 1, self.y)
+
+    def right_up(self):
+        return Coord(self.x + 1, self.y + 1)
+
+    def right_down(self):
+        return Coord(self.x + 1, self.y - 1)
+
+    def left_up(self):
+        return Coord(self.x - 1, self.y + 1)
+
+    def left_down(self):
+        return Coord(self.x - 1, self.y - 1)
+
+    def get_last_coord(self, direction: Direction):
+        if direction == Direction.up:
+            return Coord(self.x , 8)
+        if direction == Direction.down:
+            return Coord(self.x, 1)
+        if direction == Direction.right:
+            return Coord(8, self.y)
+        if direction == Direction.left:
+            return Coord(1, self.y)
+        if direction == Direction.right_up:
+            if self.y >= self.x:
+                value = 8 - self.y
+            else:
+                value = 8 - self.x
+            return Coord(self.x + value, self.y + value)
+        if direction == Direction.right_down:
+            if self.y >= 0:
+               value = self.x-1
+            else:
+                value = self.y-1
+            return Coord(self.x - value, self.y - value)
+        if direction == Direction.left_up:
+            if self.y >= 0:
+                value = self.x-1
+            else:
+                value = self.y-1
+            return Coord(self.x - value, self.y - value)
+        if direction == Direction.left_down:
+            if self.y >= self.x:
+                value = self.x-1
+            else:
+                value = self.x-1
+            return Coord(self.x - value, self.y - value)
+        if direction == Direction.undefined:
+            return Coord()
 
     def __gt__(self, other):
         if self.x > other.x and self.y > other.y:

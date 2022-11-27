@@ -3,21 +3,27 @@ from chessman import Chessman
 
 
 class Square(Coord):
-    def __init__(self, x: int, y: int, chessman: Chessman = None):
+    def __init__(self, x: int, y: int, chessman=None):
         super().__init__(x, y)
-        self.chessman = chessman
+        self.piece = chessman
 
     def get_piece(self):
-        return self.chessman
+        return self.piece
 
     def has_piece(self):
-        if self.chessman:
+        if self.piece:
             return True
         else:
             return False
 
     def set_null(self):
-        self.chessman = None
+        self.piece = None
 
     def capture_piece(self):
-        self.chessman = None
+        self.piece = None
+
+    def get_piece_symbol(self):
+        return self.piece.get_symbol()
+
+    def get_coord_symbol(self):
+        return str(self.x) + str(self.y)
