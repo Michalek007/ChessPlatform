@@ -1,13 +1,4 @@
-# REST-API-Template
-
-**Complete Flask application template, with useful plugins.**
-
-It contains:
-* user authentication with Jason Web Token
-* database created using SQLAlchemy
-* CRUD functionality for notes and computer performance
-* task scheduler with APScheduler
-* tests for api metods with pytest
+# ChessPlatform
 
 ## Requirements
 
