@@ -17,6 +17,7 @@ class Game:
         # self.last_move = dict(piece=None, move=None, taken=None)
         self.last_move = {}
         self.game_record = []
+        self.board = [[]]
 
     def __str__(self):
         # print('Whites: ')
@@ -319,3 +320,16 @@ class Game:
                 if self.check_square(iter):
                     return True
         return False
+
+    def change_turn(self):
+        if self.turn == Color.white:
+            self.turn = Color.black
+        else:
+            self.turn = Color.white
+
+    def get_square(self, coord: Coord):
+        return self.board[coord.x-1][coord.y-1]
+
+    def get_piece(self, coord: Coord):
+        return self.board[coord.x-1][coord.y-1].get_piece()
+
