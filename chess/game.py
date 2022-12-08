@@ -339,63 +339,33 @@ class Game:
     def get_piece(self, coord: Coord):
         return self.board[coord.x-1][coord.y-1].get_piece()
 
+    def decode_piece(self, piece: str):
+        if not piece:
+            return None
+        if self.turn == Color.white:
+            color = Color.black
+        else:
+            color = Color.white
+        if piece[0] == "K":
+            return King(1, 1, Piece.king, color)
+        if piece[0] == "Q":
+            return Queen(1, 1, Piece.queen, color)
+        if piece[0] == "B":
+            return Bishop(1, 1, Piece.bishop, color)
+        if piece[0] == "R":
+            return Rook(1, 1, Piece.rook, color)
+        if piece[0] == "N":
+            return Knight(1, 1, Piece.knight, color)
+        if piece[0] == "P":
+            return Pawn(1, 1, Piece.pawn, color)
+        return None
 
-    # def decode_piece(self, piece: str):
-    #     if piece:
-    #         return None
-    #     if (color == Color::white){
-    #     color = Color::black;
-    #
-    #         }
-    #         else {
-    #         color = Color::white;
-    #         }
-    #         switch(piece[0])
-    #         {
-    #         case
-    #         'K':
-    #         return new
-    #         King(color);
-    #         case
-    #         'Q':
-    #         return new
-    #         Queen(color);
-    #         case
-    #         'B':
-    #         return new
-    #         Bishop(color);
-    #         case
-    #         'N':
-    #         return new
-    #         Knight(color);
-    #         case
-    #         'R':
-    #         return new
-    #         Rook(color);
-    #         case
-    #         'P':
-    #         return new
-    #         Pawn(color);
-    #         }
-    #         return nullptr;
-    #         }
-    #
-    #         Coord
-    #         Game::decode_coord(std::string
-    #         coord){
-    #         int
-    #         x = (int)
-    #         coord[0] - '0';
-    #         int
-    #         y = (int)
-    #         coord[1] - '0';
-    #         std::cout << x << std::endl;
-    #         std::cout << y << std::endl;
-    #         Coord
-    #         result_coord
-    #         {x, y};
-    #         return result_coord;
-    #         }
+    def decode_coord(self, coord: str):
+        if not coord:
+            return None
+        x = int(coord[0])
+        y = int(coord[1])
+        return Coord(x, y)
 
     # @staticmethod
     # def init():
