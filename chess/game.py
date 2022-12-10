@@ -328,6 +328,19 @@ class Game:
                     return True
         return False
 
+    def make_move(self, start: Coord, end: Coord):
+        begin = self.get_square(start)
+        end = self.get_square(end)
+        if begin.has_piece():
+            if begin.has_piece().get_symbol() == 'K':
+                if self.turn == Color.white:
+                    self.white_king = end
+                else:
+                    self.black_king = end
+                begin.get_piece().has_moved = True
+
+
+
     def change_turn(self):
         if self.turn == Color.white:
             self.turn = Color.black
