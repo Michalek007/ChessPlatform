@@ -329,6 +329,44 @@ class Game:
     #             if self.check_square(iter):
     #                 return True
     #     return False
+    def is_legal_override(self, start: Coord, end: Coord):
+        piece = self.get_piece(start)
+        if piece is None:
+            return False
+        if piece.get_symbol() == "P":
+            if not piece.is_legal(start, end):
+                return False
+        if piece.is_white():
+            if start.x == end.x:
+                if self.get_square(end).has_piece():
+                    if self.get_piece(end).is_white():
+                        return False
+        if not self.get_square(end).has_piece():
+            return False
+
+        if self.get_piece(end).is_white():
+            return False
+    # return true;
+    # }
+    # else {
+    # if (start.get_x() == end.get_x()){
+    # if (get_square(end)->has_piece()){
+    # if (!get_piece(end)->is_white())
+    # return false;
+    # }
+    # }
+    # if (!get_square(end)->has_piece()){
+    # return false;
+    # }
+    # if (!get_piece(end)->is_white()){
+    # return false;
+    # }
+    # return true;
+    # }
+    # }
+    # else {
+    # return piece->is_legal(start, end);
+
 
     def set_last_move(self, start: str, end: str, taken: str):
         last_move = {'start': start, 'end': end, 'taken': taken}
