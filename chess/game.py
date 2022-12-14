@@ -336,37 +336,49 @@ class Game:
         if piece.get_symbol() == "P":
             if not piece.is_legal(start, end):
                 return False
-        if piece.is_white():
-            if start.x == end.x:
-                if self.get_square(end).has_piece():
-                    if self.get_piece(end).is_white():
-                        return False
-        if not self.get_square(end).has_piece():
-            return False
+            if piece.is_white():
+                if start.x == end.x:
+                    if self.get_square(end).has_piece():
+                        if self.get_piece(end).is_white():
+                            return False
+                if not self.get_square(end).has_piece():
+                    return False
+                if self.get_piece(end).is_white():
+                    return False
+                return True
+            else:
+                if start.x == end.x:
+                    if self.get_square(end).has_piece():
+                        if not self.get_piece(end).is_white():
+                            return False
+                if not self.get_square(end).has_piece():
+                    return False
+                if not self.get_piece(end).is_white():
+                    return False
+                return True
+        else:
+            return piece.is_legal(start, end)
 
-        if self.get_piece(end).is_white():
+    def is_legal(self, start: Coord, end: Coord):
+        if not self.is_legal_override(start, end):
             return False
-    # return true;
-    # }
-    # else {
-    # if (start.get_x() == end.get_x()){
-    # if (get_square(end)->has_piece()){
-    # if (!get_piece(end)->is_white())
-    # return false;
-    # }
-    # }
-    # if (!get_square(end)->has_piece()){
-    # return false;
-    # }
-    # if (!get_piece(end)->is_white()){
-    # return false;
-    # }
-    # return true;
-    # }
-    # }
-    # else {
-    # return piece->is_legal(start, end);
-
+        if self.get_square(end).has_piece():
+            if self.get_piece(start).get_color() == self.get_piece(end).get_color():
+                return False
+        # check obstacles
+        if self.piece_between(start, end):
+            return False
+        # make move and check if king is under attack
+        self.make_move(start, end)
+        if self.get_piece(start).is_white():
+            if self.can_be_captured(self.white_king):
+                return False
+        else:
+            if self.can_be_captured(self.black_king):
+               return False
+        # undo move
+        self.undo_last_move()
+        return True
 
     def set_last_move(self, start: str, end: str, taken: str):
         last_move = {'start': start, 'end': end, 'taken': taken}
