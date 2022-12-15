@@ -375,7 +375,7 @@ class Game:
                 return False
         else:
             if self.can_be_captured(self.black_king):
-               return False
+                return False
         # undo move
         self.undo_last_move()
         return True
@@ -383,6 +383,59 @@ class Game:
     def set_last_move(self, start: str, end: str, taken: str):
         last_move = {'start': start, 'end': end, 'taken': taken}
         self.game_record.append(last_move)
+
+    def piece_between(self, start: Coord, end: Coord):
+        if start.is_equal(end):
+            return False
+        if not start.is_diagonal(end):
+            return False
+        if start.x_axis_distance(end) < 2 and start.y_axis_distance(end) < 2:
+            return False
+
+        direction = start.get_direction(end)
+        if direction == Direction.up:
+            for i in range(start.y_axis_distance(end)):
+                iter = start.up()
+                if self.get_square(iter).get_piece() is not None:
+                    return True
+        if direction == Direction.down:
+            for i in range(start.y_axis_distance(end)):
+                iter = start.down()
+                if self.get_square(iter).get_piece() is not None:
+                    return True
+        if direction == Direction.right:
+            for i in range(start.x_axis_distance(end)):
+                iter = start.right()
+                if self.get_square(iter).get_piece() is not None:
+                    return True
+        if direction == Direction.left:
+            for i in range(start.x_axis_distance(end)):
+                iter = start.left()
+                if self.get_square(iter).get_piece() is not None:
+                    return True
+        if direction == Direction.right_up:
+            for i in range(start.x_axis_distance(end)):
+                iter = start.right_up()
+                if self.get_square(iter).get_piece() is not None:
+                    return True
+        if direction == Direction.right_down:
+            for i in range(start.x_axis_distance(end)):
+                iter = start.right_down()
+                if self.get_square(iter).get_piece() is not None:
+                    return True
+        if direction == Direction.left_up:
+            for i in range(start.x_axis_distance(end)):
+                iter = start.left_up()
+                if self.get_square(iter).get_piece() is not None:
+                    return True
+        if direction == Direction.left_down:
+            for i in range(start.x_axis_distance(end)):
+                iter = start.left_down()
+                if self.get_square(iter).get_piece() is not None:
+                    return True
+        if direction == Direction.undefined:
+            return False
+        return True
 
     def get_last_move(self):
         return self.game_record[-1]
@@ -422,10 +475,10 @@ class Game:
             self.turn = Color.white
 
     def get_square(self, coord: Coord):
-        return self.board[coord.x-1][coord.y-1]
+        return self.board[coord.x - 1][coord.y - 1]
 
     def get_piece(self, coord: Coord):
-        return self.board[coord.x-1][coord.y-1].get_piece()
+        return self.board[coord.x - 1][coord.y - 1].get_piece()
 
     def decode_piece(self, piece: str):
         if not piece:
