@@ -35,7 +35,7 @@ class Game:
         # print('Blacks: ')
         # for piece in self.whites:
         #     print(piece)
-        # print(f'Turn: {self.turn}')
+        # print(f'Turn: {self.turn')
         # print(self.game_record)
         return str(self.game_record) + " " + str(self.turn)
 
@@ -97,7 +97,7 @@ class Game:
     #     if not self.is_legal(move=move, piece=piece):
     #         return False
     #     if self.turn == Color.white:
-    #         self.game_record.append({'piece': self.whites[id], 'move': move, 'taken': None})
+    #         self.game_record.append({'piece': self.whites[id], 'move': move, 'taken': None)
     #         self.whites[id].coord = move
     #         for piece in self.blacks:
     #             if piece.coord == move:
@@ -106,7 +106,7 @@ class Game:
     #         self.last_move = self.game_record[-1]
     #         self.turn = Color.black
     #     else:
-    #         self.game_record.append({'piece': self.blacks[id], 'move': move, 'taken': None})
+    #         self.game_record.append({'piece': self.blacks[id], 'move': move, 'taken': None)
     #         self.blacks[id].coord = move
     #         for piece in self.whites:
     #             if piece.coord == move:
@@ -127,7 +127,7 @@ class Game:
     #             if item.coord == move:
     #                 return False
     #         # new method which check if there are pieces between two figures
-    #         # if true return false
+    #         # if True return False
     #         if self.check_obstacle(piece=piece, move=move):
     #             return False
     #         id = self.whites.index(piece)
@@ -147,7 +147,7 @@ class Game:
     #                 print('Black piece is already on that square...')
     #                 return False
     #         # new method which check if there are pieces between two figures
-    #         # if true return false
+    #         # if True return False
     #         if self.check_obstacle(piece=piece, move=move):
     #             return False
     #         id = self.blacks.index(piece)
@@ -162,7 +162,7 @@ class Game:
     #
     # def move(self, move: Coord, id: int):
     #     if self.turn == Color.white:
-    #         self.last_move = {'piece': self.whites[id], "taken": None}
+    #         self.last_move = {'piece': self.whites[id], "taken": None
     #         self.whites[id].coord = move
     #         for piece in self.blacks:
     #             if piece.coord == move:
@@ -170,7 +170,7 @@ class Game:
     #                 self.blacks.remove(piece)
     #         self.turn = Color.black
     #     else:
-    #         self.last_move = {'piece': self.blacks[id], "taken": None}
+    #         self.last_move = {'piece': self.blacks[id], "taken": None
     #         self.blacks[id].coord = move
     #         for piece in self.whites:
     #             if piece.coord == move:
@@ -203,7 +203,7 @@ class Game:
     #     if self.game_record:
     #         self.last_move = self.game_record[-1]
     #     else:
-    #         self.last_move = {'piece': None, 'move': None, 'taken': None}
+    #         self.last_move = {'piece': None, 'move': None, 'taken': None
     #
     # def check_square(self, iter: Coord):
     #     # if next((x for x in self.blacks if x.coord == iter), None):
@@ -379,6 +379,76 @@ class Game:
         # undo move
         self.undo_last_move()
         return True
+
+    def can_be_captured(self, start: Coord):
+        end_coords = [
+            start.get_last_coord(Direction.up),
+            start.get_last_coord(Direction.down),
+            start.get_last_coord(Direction.right),
+            start.get_last_coord(Direction.down),
+            start.get_last_coord(Direction.right_up),
+            start.get_last_coord(Direction.right_down),
+            start.get_last_coord(Direction.left_up),
+            start.get_last_coord(Direction.left_down)]
+        for end in end_coords:
+            direction = start.get_direction(end)
+            if direction == Direction.up:
+                for i in range(8-start.y):
+                    iter = start.up()
+                    if self.get_square(iter).get_piece() is not None:
+                        if self.is_legal_override(iter, start):
+                            return True
+            if direction == Direction.down:
+                for i in range(start.y - 1):
+                    iter = start.down()
+                    if self.get_square(iter).get_piece() is not None:
+                        if self.is_legal_override(iter, start):
+                            return True
+            if direction == Direction.right:
+                for i in range(8-start.x):
+                    iter = start.right()
+                    if self.get_square(iter).get_piece() is not None:
+                        if self.is_legal_override(iter, start):
+                            return True
+            if direction == Direction.left:
+                for i in range(start.x - 1):
+                    iter = start.left()
+                    if self.get_square(iter).get_piece() is not None:
+                        if self.is_legal_override(iter, start):
+                            return True
+            if direction == Direction.right_up:
+                for i in range(start.x_axis_distance(end)):
+                    iter = start.right_up()
+                    if self.get_square(iter).get_piece() is not None:
+                        if self.is_legal_override(iter, start):
+                            return True
+            if direction == Direction.right_down:
+                for i in range(start.x_axis_distance(end)):
+                    iter = start.right_down()
+                    if self.get_square(iter).get_piece() is not None:
+                        if self.is_legal_override(iter, start):
+                            return True
+            if direction == Direction.left_up:
+                for i in range(start.x_axis_distance(end)):
+                    iter = start.left_up()
+                    if self.get_square(iter).get_piece() is not None:
+                        if self.is_legal_override(iter, start):
+                            return True
+            if direction == Direction.left_down:
+                for i in range(start.x_axis_distance(end)):
+                    iter = start.left_down()
+                    if self.get_square(iter).get_piece() is not None:
+                        if self.is_legal_override(iter, start):
+                            return True
+            if direction == Direction.undefined:
+                return True
+        l_values = ((1, 2), (1, -2), (2, 1), (2, -1),
+                    (-1, 2), (-1, -2), (-2, 1), (-2, -1))
+        for value in l_values:
+            l_coord = Coord(start.x + value[0], start.y + value[1])
+            if self.get_square(l_coord).has_piece():
+                if self.get_piece(l_coord).get_symbol() == "N":
+                    return True
 
     def set_last_move(self, start: str, end: str, taken: str):
         last_move = {'start': start, 'end': end, 'taken': taken}
