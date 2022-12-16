@@ -1,4 +1,4 @@
-from enum_types import Direction
+from chess.enum_types import Direction
 
 
 class Coord:

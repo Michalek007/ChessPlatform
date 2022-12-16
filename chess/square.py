@@ -1,5 +1,5 @@
 from chess.coord import Coord
-from chessman import Chessman
+from chess.chessman import Chessman
 
 
 class Square(Coord):

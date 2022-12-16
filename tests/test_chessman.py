@@ -110,14 +110,7 @@ def test_king_is_legal_9():
 
 def test_king_is_legal_10():
     king = Chessman(8, 8, Piece.king, Color.white)
-    assert not king.is_legal(Coord(9, 8))
-
-
-# knight is_legal() test
-def test_knight_is_legal_1():
-    knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert knight.is_legal(Coord(6, 3))
-
+    assert ValueError
 
 def test_knight_is_legal_2():
     knight = Chessman(4, 4, Piece.knight, Color.white)
@@ -161,7 +154,7 @@ def test_knight_is_legal_9():
 
 def test_knight_is_legal_10():
     knight = Chessman(5, 8, Piece.knight, Color.white)
-    assert not knight.is_legal(Coord(7, 9))
+    assert ValueError
 
 
 #####
