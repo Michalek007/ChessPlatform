@@ -36,52 +36,54 @@ class Chessman:
         else:
             return False
 
-    def is_legal(self, move: Coord):
-        if self.type == Piece.queen:
-            return self.coord.queen(move)
-        if self.type == Piece.rook:
-            return self.coord.rook(move)
-        if self.type == Piece.bishop:
-            return self.coord.bishop(move)
-        if self.type == Piece.knight:
-            if self.coord.knight(move):
-                return True
-        if self.type == Piece.pawn:
-            if self.color == Color.white:
-                iter = Coord(self.coord.x, self.coord.y)
-                if iter.iterate_up():
-                    if iter == move:
-                        return True
-                if iter.iterate_up():
-                    if iter == move:
-                        return True
-                iter.x, iter.y = (self.coord.x, self.coord.y)
-                if iter.iterate_right_up():
-                    if iter == move:
-                        return True
-                iter.x, iter.y = (self.coord.x, self.coord.y)
-                if iter.iterate_left_up():
-                    if iter == move:
-                        return True
-                return False
-            if self.color == Color.black:
-                iter = Coord(self.coord.x, self.coord.y)
-                if iter.iterate_down():
-                    if iter == move:
-                        return True
-                if iter.iterate_down():
-                    if iter == move:
-                        return True
-                iter.x, iter.y = (self.coord.x, self.coord.y)
-                if iter.iterate_right_down():
-                    if iter == move:
-                        return True
-                iter.x, iter.y = (self.coord.x, self.coord.y)
-                if iter.iterate_left_down():
-                    if iter == move:
-                        return True
-                return False
-        if self.type == Piece.king:
-            if self.coord.king(move):
-                return True
+    def is_legal(self, start: Coord, end: Coord):
         return False
+    # def is_legal(self, move: Coord):
+    #     if self.type == Piece.queen:
+    #         return self.coord.queen(move)
+    #     if self.type == Piece.rook:
+    #         return self.coord.rook(move)
+    #     if self.type == Piece.bishop:
+    #         return self.coord.bishop(move)
+    #     if self.type == Piece.knight:
+    #         if self.coord.knight(move):
+    #             return True
+    #     if self.type == Piece.pawn:
+    #         if self.color == Color.white:
+    #             iter = Coord(self.coord.x, self.coord.y)
+    #             if iter.iterate_up():
+    #                 if iter == move:
+    #                     return True
+    #             if iter.iterate_up():
+    #                 if iter == move:
+    #                     return True
+    #             iter.x, iter.y = (self.coord.x, self.coord.y)
+    #             if iter.iterate_right_up():
+    #                 if iter == move:
+    #                     return True
+    #             iter.x, iter.y = (self.coord.x, self.coord.y)
+    #             if iter.iterate_left_up():
+    #                 if iter == move:
+    #                     return True
+    #             return False
+    #         if self.color == Color.black:
+    #             iter = Coord(self.coord.x, self.coord.y)
+    #             if iter.iterate_down():
+    #                 if iter == move:
+    #                     return True
+    #             if iter.iterate_down():
+    #                 if iter == move:
+    #                     return True
+    #             iter.x, iter.y = (self.coord.x, self.coord.y)
+    #             if iter.iterate_right_down():
+    #                 if iter == move:
+    #                     return True
+    #             iter.x, iter.y = (self.coord.x, self.coord.y)
+    #             if iter.iterate_left_down():
+    #                 if iter == move:
+    #                     return True
+    #             return False
+    #     if self.type == Piece.king:
+    #         if self.coord.king(move):
+    #             return True
+    #     return False

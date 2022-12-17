@@ -518,15 +518,15 @@ class Game:
         last_move = self.get_last_move()
         start = self.decode_coord(last_move["start"])
         end = self.decode_coord(last_move["end"])
-        self.get_square(start).set_piece(self.get_square(end).get_piece())
-        self.get_square(end).set_piece(self.decode_piece(last_move["taken"]))
+        self.get_square(start).piece = self.get_square(end).get_piece()
+        self.get_square(end).piece = self.decode_piece(last_move["taken"])
 
     def make_move(self, start: Coord, end: Coord):
         begin = self.get_square(start)
         dest = self.get_square(end)
         taken = ""
         if begin.has_piece():
-            if begin.has_piece().get_symbol() == 'K':
+            if begin.get_piece().get_symbol() == 'K':
                 if self.turn == Color.white:
                     self.white_king = end
                 else:
@@ -537,7 +537,7 @@ class Game:
             if dest.has_piece():
                 taken = dest.get_piece()
             dest.capture_piece()
-            dest.set_piece(begin.get_piece())
+            dest.piece = begin.get_piece()
             begin.set_null()
             self.set_last_move(begin.get_coord_symbol(), dest.get_coord_symbol(), taken)
             self.change_turn()

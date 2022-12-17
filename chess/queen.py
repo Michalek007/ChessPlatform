@@ -7,8 +7,16 @@ class Queen(Chessman):
     def __init__(self, x: int, y: int, piece_type: Piece, color: Color):
         super().__init__(x, y, piece_type, color)
 
-    def is_legal(self, move: Coord):
-        return self.coord.queen(move)
+    def is_legal(self, start: Coord, end: Coord):
+        if start.is_equal(end):
+            return False
+        if start.is_diagonal(end):
+            return True
+        if start.x_axis_distance(end) == 0:
+            return True
+        if start.y_axis_distance(end) == 0:
+            return True
+        return False
 
     @staticmethod
     def get_symbol():

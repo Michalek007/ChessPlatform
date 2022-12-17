@@ -7,38 +7,33 @@ class Pawn(Chessman):
     def __init__(self, x: int, y: int, piece_type: Piece, color: Color):
         super().__init__(x, y, piece_type, color)
 
-    def is_legal(self, move: Coord):
-        iter = Coord(self.coord.x, self.coord.y)
-        if self.is_white():
-            if iter.iterate_up():
-                if iter == move:
-                    return True
-            if iter.iterate_up():
-                if iter == move:
-                    return True
-            iter.x, iter.y = (self.coord.x, self.coord.y)
-            if iter.iterate_right_up():
-                if iter == move:
-                    return True
-            iter.x, iter.y = (self.coord.x, self.coord.y)
-            if iter.iterate_left_up():
-                if iter == move:
-                    return True
+    def is_legal(self, start: Coord, end: Coord):
+        if start.is_equal(end):
             return False
+        if self.is_white():
+            if start.x == end.x:
+                if start.y + 1 == end.y:
+                    return True
+                if start.y + 2 == end.y:
+                    return True
+            else:
+                if start.y + 1 == end.y:
+                    if start.x - 1 == end.x:
+                        return True
+                    if start.x + 1 == end.x:
+                        return True
+                return False
         else:
-            if iter.iterate_down():
-                if iter == move:
+            if start.x == end.x:
+                if start.y - 1 == end.y:
                     return True
-            if iter.iterate_down():
-                if iter == move:
+                if start.y - 2 == end.y:
                     return True
-            iter.x, iter.y = (self.coord.x, self.coord.y)
-            if iter.iterate_right_down():
-                if iter == move:
-                    return True
-            iter.x, iter.y = (self.coord.x, self.coord.y)
-            if iter.iterate_left_down():
-                if iter == move:
+            else:
+                if start.y - 1 == end.y:
+                    if start.x - 1 == end.x:
+                        return True
+                if start.x + 1 == end.x:
                     return True
             return False
 
