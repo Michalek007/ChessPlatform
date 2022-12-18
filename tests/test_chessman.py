@@ -4,108 +4,108 @@ from chess import *
 # queen is_legal() test
 def test_queen_is_legal_1():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert queen.is_legal(Coord(1, 1))
+    assert queen.is_legal(Coord(4, 4), Coord(1, 1))
 
 
 def test_queen_is_legal_2():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert queen.is_legal(Coord(8, 8))
+    assert queen.is_legal(Coord(4, 4), Coord(8, 8))
 
 
 def test_queen_is_legal_3():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert not queen.is_legal(Coord(1, 8))
+    assert not queen.is_legal(Coord(4, 4), Coord(1, 8))
 
 
 def test_queen_is_legal_4():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert not queen.is_legal(Coord(8, 1))
+    assert not queen.is_legal(Coord(4, 4), Coord(8, 1))
 
 
 def test_queen_is_legal_5():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert queen.is_legal(Coord(1, 4))
+    assert queen.is_legal(Coord(4, 4), Coord(1, 4))
 
 
 def test_queen_is_legal_6():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert queen.is_legal(Coord(4, 8))
+    assert queen.is_legal(Coord(4, 4), Coord(4, 8))
 
 
 def test_queen_is_legal_7():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert not queen.is_legal(Coord(3, 6))
+    assert not queen.is_legal(Coord(4, 4), Coord(3, 6))
 
 
 def test_queen_is_legal_8():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert not queen.is_legal(Coord(3, 6))
+    assert not queen.is_legal(Coord(4, 4), Coord(3, 6))
 
 
 def test_queen_is_legal_9():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert queen.is_legal(Coord(4, 5))
+    assert queen.is_legal(Coord(4, 4), Coord(4, 5))
 
 
 def test_queen_is_legal_10():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert queen.is_legal(Coord(4, 6))
+    assert queen.is_legal(Coord(4, 4), Coord(4, 6))
 
 
 def test_queen_is_legal_11():
     queen = Chessman(4, 4, Piece.queen, Color.white)
-    assert queen.is_legal(Coord(4, 7))
+    assert queen.is_legal(Coord(4, 4), Coord(4, 7))
 
 
 def test_queen_is_legal_12():
     queen = Chessman(7, 6, Piece.queen, Color.white)
-    assert queen.is_legal(Coord(7, 7))
+    assert queen.is_legal(Coord(4, 4), Coord(7, 7))
 
 
 # king is_legal() test
 def test_king_is_legal_1():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert king.is_legal(Coord(4, 5))
+    assert king.is_legal(Coord(4, 4), Coord(4, 5))
 
 
 def test_king_is_legal_2():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert king.is_legal(Coord(5, 4))
+    assert king.is_legal(Coord(4, 4), Coord(5, 4))
 
 
 def test_king_is_legal_3():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert king.is_legal(Coord(5, 5))
+    assert king.is_legal(Coord(4, 4), Coord(5, 5))
 
 
 def test_king_is_legal_4():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert king.is_legal(Coord(3, 4))
+    assert king.is_legal(Coord(4, 4), Coord(3, 4))
 
 
 def test_king_is_legal_5():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert king.is_legal(Coord(4, 3))
+    assert king.is_legal(Coord(4, 4), Coord(4, 3))
 
 
 def test_king_is_legal_6():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert king.is_legal(Coord(3, 5))
+    assert king.is_legal(Coord(4, 4), Coord(3, 5))
 
 
 def test_king_is_legal_7():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert king.is_legal(Coord(5, 3))
+    assert king.is_legal(Coord(4, 4), Coord(5, 3))
 
 
 def test_king_is_legal_8():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert king.is_legal(Coord(3, 3))
+    assert king.is_legal(Coord(4, 4), Coord(3, 3))
 
 
 def test_king_is_legal_9():
     king = Chessman(4, 4, Piece.king, Color.white)
-    assert not king.is_legal(Coord(6, 4))
+    assert not king.is_legal(Coord(4, 4), Coord(6, 4))
 
 
 def test_king_is_legal_10():
@@ -114,42 +114,42 @@ def test_king_is_legal_10():
 
 def test_knight_is_legal_2():
     knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert knight.is_legal(Coord(6, 5))
+    assert knight.is_legal(Coord(4, 4), Coord(6, 5))
 
 
 def test_knight_is_legal_3():
     knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert knight.is_legal(Coord(2, 3))
+    assert knight.is_legal(Coord(4, 4), Coord(2, 3))
 
 
 def test_knight_is_legal_4():
     knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert knight.is_legal(Coord(2, 5))
+    assert knight.is_legal(Coord(4, 4), Coord(2, 5))
 
 
 def test_knight_is_legal_5():
     knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert knight.is_legal(Coord(5, 2))
+    assert knight.is_legal(Coord(4, 4), Coord(5, 2))
 
 
 def test_knight_is_legal_6():
     knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert knight.is_legal(Coord(3, 2))
+    assert knight.is_legal(Coord(4, 4), Coord(3, 2))
 
 
 def test_knight_is_legal_7():
     knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert knight.is_legal(Coord(3, 6))
+    assert knight.is_legal(Coord(4, 4), Coord(3, 6))
 
 
 def test_knight_is_legal_8():
     knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert knight.is_legal(Coord(5, 6))
+    assert knight.is_legal(Coord(4, 4), Coord(5, 6))
 
 
 def test_knight_is_legal_9():
     knight = Chessman(4, 4, Piece.knight, Color.white)
-    assert not knight.is_legal(Coord(4, 5))
+    assert not knight.is_legal(Coord(4, 4), Coord(4, 5))
 
 
 def test_knight_is_legal_10():

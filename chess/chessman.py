@@ -37,7 +37,7 @@ class Chessman:
             return False
 
     def is_legal(self, start: Coord, end: Coord):
-        return False
+        return True
     # def is_legal(self, move: Coord):
     #     if self.type == Piece.queen:
     #         return self.coord.queen(move)
